@@ -3,9 +3,14 @@
 class App
   def initialize
     @plateau_size = []
-    @rover_start_xy = []
     @results = []
+    reset
     @continue = 'Y'
+  end
+
+  def reset
+    @rover_start_xy = []
+    @rover_route = ''
   end
 
   def execute
@@ -14,6 +19,7 @@ class App
 
     set_plateau_size
     while @continue == 'Y'
+      reset
       set_start_xy
       set_route
       calculate_endpoint
@@ -38,9 +44,11 @@ class App
     puts ''
     puts '--------'
     puts 'Where on this plateau would you like your rover to be plopped, and facing which direction?'
-    puts "You can enter any coordinates from '0 0 ' up to '#{@plateau_size[0]} #{@plateau_size[1]}',"
-    puts "and you can specify the direction with either 'N', 'E', 'S', or 'W'."
-    puts "So we'll want to enter something like: '1 2 N' or '3 3 E'."
+    if @results.empty?
+      puts "You can enter any coordinates from '0 0 ' up to '#{@plateau_size[0]} #{@plateau_size[1]}',"
+      puts "and you can specify the direction with either 'N', 'E', 'S', or 'W'."
+      puts "So we'll want to enter something like: '1 2 N' or '3 3 E'."
+    end
     print '> '
 
     @rover_start_xy = gets.chomp.split.map! { |character| character =~ /\d/ ? character.to_i : character }
@@ -51,9 +59,11 @@ class App
     puts '--------'
     puts "Awesome. So starting from x = #{@rover_start_xy[0]} and y = #{@rover_start_xy[1]}, facing #{compass(@rover_start_xy[2])},"
     puts "what's the route we'd like this rover to navigate?"
-    puts "We can type 'L' for the rover to turn left (rotate 90deg counter-clockwise, without otherwise moving),"
-    puts "'R' to turn right, and 'M' to move forward one step (in the direction they're already facing)."
-    puts "So we'll want to enter something like: 'LMLMLMLMM' or 'MMRMMRMRRM'."
+    if @results.empty?
+      puts "We can type 'L' for the rover to turn left (rotate 90deg counter-clockwise, without otherwise moving),"
+      puts "'R' to turn right, and 'M' to move forward one step (in the direction they're already facing)."
+      puts "So we'll want to enter something like: 'LMLMLMLMM' or 'MMRMMRMRRM'."
+    end
     print '> '
 
     @rover_route = gets.chomp

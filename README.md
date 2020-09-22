@@ -8,4 +8,4 @@ This first iteration is intentionally developed with minimal modularity
 
 * Run `gem install bundler && bundle install` to install dependcies
 * Run `ruby app.rb` to execute the app
-* Run `rspec` to execute the tests
+* ~~Run `rspec` to execute the tests~~
